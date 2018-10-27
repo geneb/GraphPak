@@ -1,0 +1,122 @@
+IMPORTANT NOTE: If any of your graphs display a legend, it may be necessary
+to compile the SUPPORT.BAS module with either /d or /x.  This fixes a bug in
+QuickBASIC that causes the legend to be displayed improperly (if at all).
+
+
+               The following changes and additions have
+               added to Graphpak Professional version 3.7
+               ******************************************
+
+1. Specifying a Y axis heading other than "PERCENT" now no longer
+requires a source code modification.  The variable YHeading$ has been
+added for this purpose and is declared as COMMON SHARED in COMMON.BAS.
+The default heading is still "PERCENT", but it may be changed at any
+time before the call to any of the graph routines by assigning a new
+string to YHeading$. This change affects COMMON.BAS, SETGPDAT.BAS and
+SUPPORT.BAS.
+
+
+2. RealTime is a new routine that will graph data passed to it in real
+time. RealTime is a BASIC subroutine contained in REALTIME.BAS
+
+
+   Purpose:
+
+   RealTime is a multiple line graphing subroutine that will plot data
+in real time.  It is meant to be called in a loop where each iteration
+passes new data to be plotted.  RealTime can produce a dynamic plot
+similar to an oscilloscope display.
+
+   Syntax:
+
+   CALL RealTime (GraphData!(), XTitle$(), YTitle$, MainTitle$,_
+                  Colors(), Action%
+
+   Where:
+
+   GraphData!() is a one dimensional array containing the current
+point(s) to be plotted.  It should be dimensioned to the number of lines
+being plotted.  Data for line 1 goes into GraphData!(1), data for line 2
+goes into GraphData!(2), etc.  Each time through the loop GraphData!()
+is to be updated with new data to be plotted.
+
+   XTitle$() is a one dimensional string array containing the titles to
+be displayed on the X axis. The array should be dimensioned to one
+element larger than the number of points being plotted to accommodate
+the X axis heading.
+
+   YTitle$() is a one dimensional string array containing the titles to
+be displayed in the line legend.  The array should be dimensioned to one
+element larger than the number of lines being plotted to accommodate the
+legend heading.
+
+   MainTitle$ is the title to be displayed at the top of the graph.
+
+   Colors() is an array of colors to use when plotting lines.  This
+array can be dimensioned to any number up to the maximum number of
+colors available for the current screen mode.  (GPDat(50) contains the
+maximum number of colors available for the current screen mode.)
+Colors(1) is the color to use for the first line, Colors(2) is the color
+to use for the second line etc..  If you specify a Colors array of a
+smaller size than the number of lines being plotted, GraphPak will loop
+through the Colors array to obtain the additional colors.  Duplicated
+colors will be displayed with a different line type, i.e., dotted,
+dashed, etc..  See Appendix E in the
+   GraphPak Professional manual for more information on the Colors()
+array.
+
+   Action is a special variable that determines how RealTime will
+behave. When set to 0, -1 or -2, RealTime displays the graph background,
+axis, X and Y titles, main title, line legend (if any) and exits the
+routine without plotting any data, but first resets Action to 2.  Action
+values of -1 and -2 are used to determine how RealTime will behave when
+called in retrace mode.  Action set to -1 causes the entire graph region
+to be  cleared between each retrace.  Action set to -2 only clears the
+region just ahead of where the data is being plotted.  This leaves the
+previous graph on the screen until it is over written by the new plot.
+This process is somewhat more complicated then the one used with Action
+-1 and is therefore a bit slower.
+
+   After calling RealTime with Action 0, -1, or -2, Action is reset to 2
+to allow data to be plotted the next time RealTime is called.  With
+action set to 2, RealTime will begin to plot the data passed in the
+GraphData!() array and sets Action to 3 to continue plotting. If you do
+not need the retrace feature and only want to plot one complete pass,
+you can start with Action set to either 0, or -1.  Simply place a
+counter variable in your loop and exit when Count = number of points +
+1.
+
+Comments:
+   RealTime always uses the entire graph region to plot data, therefore
+GPDat(21) has no effect.  Tiling of the graph background is disabled when
+starting RealTime with Action set to -1 or -2.  If more than 6 lines are
+plotted, no line legend will be displayed.
+
+   Unlike the other graphs contained in GraphPak Professional, the graph
+height and width is automatically adjusted to the exact size required to
+contain the plot.  In some instances this will cause the graph to be
+smaller than specified in GPDat(39) and GPDat(40) but produces a more
+attractive plot.
+
+
+   Required support modules:  REALTIME.BAS, DISPLAY.BAS, DRAWCHAR.BAS,
+                              DRAWTEXT.BAS, FILLPOLY.BAS, LOADFONT.BAS,
+                              SETVIDEO.BAS, AXIS2.BAS, SUPPORT.BAS
+
+   $INCLUDE Files             SIMPLE.BAS
+
+
+See the demo program DEMOREAL.BAS for an example of graphs created with
+RealTime.
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^V3.07^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+9/16/92
+
+Added the GPAKVBD.QLB Quick library for compatability with Visual Basic
+for DOS.
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^V3.08^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3-1-96
+Trapped for Prec2 incoming negative values in PrecisionStr in LINESCI.BAS.
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^V3.09^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

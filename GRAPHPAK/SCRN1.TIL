@@ -1,0 +1,14 @@
+'
+'****** These tiles have been provided for CGA low-res monitors
+'
+Data 170,170,170,170
+Data 170,85,170,85
+Data 85,85,85,85
+Data 10,10,10,10
+Data 204,204,204,204
+Data 170,204,170,204
+ 
+GP.STiles% = 6
+GP.TilWid% = 4
+
+

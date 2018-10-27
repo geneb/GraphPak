@@ -1,0 +1,13 @@
+'
+'********* These tiles included for CGA Hi-RES monitors
+'
+Data 170,170,170,170
+Data 0,0,0,0
+Data 17,17,17,17
+Data 85,85,85,85
+Data 255,255,255,255
+Data 170,0,170,0
+ 
+GP.STiles% = 6
+GP.TilWid% = 4
+

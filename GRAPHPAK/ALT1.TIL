@@ -1,0 +1,7 @@
+Data 0,0,0,0
+Data 170,0,170,0
+Data 0,0,128,0
+
+GP.ATiles% = 3
+GP.TilWid% = 4
+
